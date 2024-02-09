@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/auth/userSlice";
+import GoogleAuth from "../components/GoogleAuth";
 
 const Login = () => {
 
@@ -74,6 +75,7 @@ const Login = () => {
             >
               Login Now
             </button>
+            <GoogleAuth/>
           </div>
           <div className="flex items-center text-[1.2rem]">
             <div className="mt-5">

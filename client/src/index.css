@@ -8,6 +8,19 @@ body {
   margin: 0;
 }
 
-.active{
-    color: #63b3ed;
+.active {
+  color: #63b3ed;
+}
+
+.ql-editor {
+  font-size: 1.1rem;
+  color: whitesmoke;
+}
+
+.quill-placeholder .ql-editor::before {
+  color: whitesmoke;
+}
+
+.ql-toolbar {
+  background-color: rgb(222, 231, 234);
 }

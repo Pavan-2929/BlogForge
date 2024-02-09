@@ -84,7 +84,7 @@ const Header = () => {
                   </NavLink>
                 </li>
                 <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
-                  <NavLink to="/register" onClick={closeMenu}>
+                  <NavLink to="/Profile" onClick={closeMenu}>
                     {currentUser && currentUser.profilePicture && (
                       <img
                         src={currentUser.profilePicture}

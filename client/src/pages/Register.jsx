@@ -1,35 +1,46 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from "react";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import authImage from "../assets/authImage.png";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/auth/userSlice";
 
 const Register = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [formData, setFormData] = useState({});
 
-  const [formData, setFormData] = useState({})
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        formData,
+        { withCredentials: true }
+      );
 
-    const handleRegisterSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.post(
-          "http://localhost:3000/api/auth/register",
-          formData,
-          { withCredentials: true }
-        );
-
-        console.log(response);
-      } catch (error) {
-        console.log(error);
+      if(response.status === 200){
+        navigate('/')
+        setFormData({})
+        dispatch(login())
       }
-    };
 
-    const handleChange = (e) => {
-      e.preventDefault();
-      setFormData({...formData, [e.target.id]: e.target.value})
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
   return (
-    <div className="flex justify-around items-center mt-6">
+    <div className="flex justify-around items-center mt-10">
       <div className="hidden lg:flex">
         <img
-          src=""
+          src={authImage}
           alt="Register"
           className="w-[25rem] h-[30rem] object-cover rounded-lg"
         />
@@ -44,7 +55,7 @@ const Register = () => {
         </h1>
 
         <div className="mb-4">
-          <label htmlFor="username" className="text-purple-700">
+          <label htmlFor="username" className="text-blue-400">
             Username
           </label>
           <input
@@ -55,7 +66,7 @@ const Register = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="text-purple-700">
+          <label htmlFor="email" className="text-blue-400">
             Email
           </label>
           <input
@@ -67,7 +78,7 @@ const Register = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="password" className="text-purple-700">
+          <label htmlFor="password" className="text-blue-400">
             Password
           </label>
           <input
@@ -79,7 +90,7 @@ const Register = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="confirmPassword" className="text-purple-700">
+          <label htmlFor="confirmPassword" className="text-blue-400">
             Confirm Password
           </label>
           <input
@@ -94,7 +105,7 @@ const Register = () => {
           <div>
             <button
               type="submit"
-              className="bg-purple-700 text-white p-2 mt-5 hover:bg-purple-900 rounded focus:outline-none mr-10"
+              className="bg-blue-400 text-white p-2 mt-5 hover:bg-blue-500 rounded focus:outline-none mr-10"
             >
               Register Now
             </button>
@@ -105,7 +116,7 @@ const Register = () => {
             </div>
             <NavLink
               to="/login"
-              className=" text-white p-2 mt-5 underline rounded ml-2 focus:outline-none"
+              className=" p-2 mt-5 underline rounded ml-2 focus:outline-none"
             >
               Login
             </NavLink>
@@ -114,6 +125,6 @@ const Register = () => {
       </form>
     </div>
   );
-}
+};
 
-export default Register
+export default Register;

@@ -1,20 +1,43 @@
 import React, { useState } from "react";
-import {NavLink} from 'react-router-dom'
-import axios from 'axios'
+import { NavLink } from "react-router-dom";
+import authImage from "../assets/authImage.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/auth/userSlice";
 
 const Login = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post("http://localhost:3000/api/auth/login", formData, {withCredentials: true})
+
+      if(response.status === 200){
+        navigate('/')
+        setFormData({})
+        dispatch(login())
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
-    <div className="flex justify-around mt-6 ">
+    <div className="flex justify-around mt-14 ">
       <div className="hidden lg:flex">
-        <img src="" alt="Register" className="w-[25rem] h-[30rem]" />
+        <img src={authImage} alt="Register" className="w-[25rem] h-[30rem]" />
       </div>
 
-      <form className="w-full lg:w-1/2 sm:p-14 p-6 rounded-lg mt-4 font-semibold bg-[#282828]" onSubmit={handleRegisterSubmit}>
+      <form className="w-full lg:w-1/2 sm:p-14 p-6 rounded-lg mt-4 font-semibold bg-[#282828]" onSubmit={handleLoginSubmit}>
         <h1 className="sm:text-5xl text-3xl font-bold mb-10 text-[#ccc]">
           Login with your account
         </h1>

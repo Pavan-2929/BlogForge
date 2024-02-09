@@ -13,15 +13,53 @@ export const register = async (req, res, next) => {
       return next(errorHandler(400, "User already exist"));
     }
 
+    if(password !== confirmPassword){
+      return next(400, "Eneter same password")
+    }
+
     const newUser = await User.create({ username, email, password });
 
     const token = await newUser.generateToken();
     const expiryDate = new Date(Date.now() + 60 * 60 * 24 * 365 * 1000);
 
-    res.cookie("token", token, { expires: expiryDate, secure: false });
+    res.cookie("token", token, { expires: expiryDate, secure: true, sameSite: "None" });
 
     res.status(200).json(newUser);
   } catch (error) {
     next(error);
   }
 };
+
+export const login = async (req, res, next) => {
+  try {
+    const {email, password} = req.body
+
+    const validEmail = await User.findOne({email})
+    if(!validEmail){
+      return next (errorHandler(404, "User not found"))
+    }
+
+    const validPassword = await validEmail.comparePassword(password);
+    if(!validPassword){
+      return next (errorHandler(400, "Enter valid password"))
+    }
+
+    const token = await validEmail.generateToken();
+    const expiryDate = new Date(Date.now() + 60 * 60 * 24 * 365 * 1000);
+
+    res.cookie("token", token, {expires: expiryDate, secure: true, sameSite: "None"})
+
+    res.status(200).json(validEmail)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const logout = async (req, res, next) => {
+  try {
+    await res.clearCookie("token")
+    res.status(200).json("Logout successfully")
+  } catch (error) {
+    next(error)
+  }
+}

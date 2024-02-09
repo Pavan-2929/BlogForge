@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/auth/userSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const currentUser = useSelector((state) => state.currentUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -11,6 +19,25 @@ const Header = () => {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const logoutHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/auth/logout",
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        navigate("/");
+        dispatch(logout());
+        setIsMenuOpen(false);
+      }
+    } catch (error) {}
   };
   return (
     <nav
@@ -48,16 +75,40 @@ const Header = () => {
                 Home
               </NavLink>
             </li>
-            <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
-              <NavLink to="/register" onClick={closeMenu}>
-                Register
-              </NavLink>
-            </li>
-            <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
-              <NavLink to="/login" onClick={closeMenu}>
-                Login
-              </NavLink>
-            </li>
+
+            {isLoggedIn ? (
+              <>
+                <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
+                  <NavLink to="/register" onClick={logoutHandler}>
+                    Logout
+                  </NavLink>
+                </li>
+                <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
+                  <NavLink to="/register" onClick={closeMenu}>
+                    {currentUser && currentUser.profilePicture && (
+                      <img
+                        src={currentUser.profilePicture}
+                        alt=""
+                        className="h-8 w-8 rounded-full"
+                      />
+                    )}
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
+                  <NavLink to="/register" onClick={closeMenu}>
+                    Register
+                  </NavLink>
+                </li>
+                <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
+                  <NavLink to="/login" onClick={closeMenu}>
+                    Login
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

@@ -12,9 +12,14 @@ const Header = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const currentUser = useSelector((state) => state.currentUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileToggleOpen, setIsProfileToggleOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileToggleOpen(!isProfileToggleOpen);
   };
 
   const closeMenu = () => {
@@ -78,13 +83,13 @@ const Header = () => {
 
             {isLoggedIn ? (
               <>
-                <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
-                  <NavLink to="/register" onClick={logoutHandler}>
-                    Logout
+                <li className="md:ml-5 xl:mx-5 sm:mt-0 mt-10 hover:text-blue-400">
+                  <NavLink to="/post-create" onClick={closeMenu}>
+                    Create-Blog
                   </NavLink>
                 </li>
-                <li className="md:ml-5 xl:mx-5 hover:text-blue-400">
-                  <NavLink to="/Profile" onClick={closeMenu}>
+                <li className="md:ml-5 xl:mx-5 hover:text-blue-400 relative flex items-center md:mr-8 ">
+                  <button onClick={toggleProfileDropdown}>
                     {currentUser && currentUser.profilePicture && (
                       <img
                         src={currentUser.profilePicture}
@@ -92,7 +97,40 @@ const Header = () => {
                         className="h-8 w-8 rounded-full"
                       />
                     )}
-                  </NavLink>
+                  </button>
+                  {isProfileToggleOpen && (
+                    <ul className="absolute top-full left-0 bg-[#282828] border border-gray-200 mt-1 py-1 rounded-lg shadow-lg">
+                      <li>
+                        <NavLink
+                          to="/Profile"
+                          className="block px-4 py-2 hover:bg-[#444] text-white"
+                          onClick={() => {
+                            closeMenu();
+                            toggleProfileDropdown();
+                          }}
+                        >
+                          Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/user/posts"
+                          className="block px-4 py-2 hover:bg-[#444]  text-white"
+                        >
+                          Blogs
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/login"
+                          className="block px-4 py-2 hover:bg-[#444]  text-white"
+                          onClick={logoutHandler}
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
                 </li>
               </>
             ) : (

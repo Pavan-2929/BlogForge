@@ -45,7 +45,7 @@ const Profile = () => {
       console.log(response);
       if (response.status === 200) {
         dispatch(login());
-        dispatch(setUser(response.data));
+        dispatch(setUser(formData));
       }
     } catch (error) {
       console.log(error);

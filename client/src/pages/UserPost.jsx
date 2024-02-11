@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 const UserPost = () => {
   const currentUser = useSelector((state) => state.currentUser);
   const [allPosts, setAllPosts] = useState({});
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const fetchUserPost = async () => {
     try {
       const response = await axios.get(
@@ -16,6 +17,21 @@ const UserPost = () => {
       setAllPosts(response.data);
       // console.log(response);
     } catch (error) {}
+  };
+
+  const handleDeleteBlog = async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/post/delete/${id}`, {withCredentials: true}
+      );
+
+      if (response.status === 200) {
+        fetchUserPost();
+        alert("Deleted successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -53,37 +69,62 @@ const UserPost = () => {
                     }}
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   ></p>
-                  <div className="">
-                    </div>
-                    <div className="flex justify-between">
-                      <NavLink
-                        type="submit"
-                        className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
-                        to={`post/${post.slug}`}
-                      >
-                        Explore
-                      </NavLink>
-                      <NavLink
-                        type="submit"
-                        className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
-                        to={`post/${post.slug}`}
-                      >
-                        Update
-                      </NavLink>
-                      <NavLink
-                        type="submit"
-                        className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
-                        to={`post/${post.slug}`}
-                      >
-                        Delete
-                      </NavLink>
-                    </div>
+                  <div className=""></div>
+                  <div className="flex justify-between">
+                    <NavLink
+                      type="submit"
+                      className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
+                      to={`/post/${post.slug}`}
+                    >
+                      Explore
+                    </NavLink>
+                    <NavLink
+                      type="submit"
+                      className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
+                      to={`/post/update/${post._id}`}
+                    >
+                      Update
+                    </NavLink>
+                    <button
+                      type="button"
+                      className="bg-red-500 text-white p-2 hover:bg-red-600 rounded focus:outline-none mr-10"
+                      onClick={() => setDeleteConfirmation(post._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </>
         )}
       </div>
+      {deleteConfirmation && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-[#282828] p-6 rounded-lg shadow-lg">
+            <p className="text-lg font-semibold mb-4">
+              Are you sure you want to delete this post?
+            </p>
+            <div className="flex justify-center">
+              <button
+                className="bg-red-500 text-white px-4 py-2 mr-4 rounded"
+                onClick={() => {
+                  handleDeleteBlog(deleteConfirmation);
+                  setDeleteConfirmation(null);
+                }}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-gray-400 text-gray-800 px-4 py-2 rounded"
+                onClick={() => setDeleteConfirmation(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

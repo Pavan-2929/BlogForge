@@ -26,6 +26,10 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
+  const profileMenuClose = () => {
+    setIsProfileToggleOpen(false);
+  };
+
   const logoutHandler = async (e) => {
     e.preventDefault();
 
@@ -41,6 +45,7 @@ const Header = () => {
         navigate("/");
         dispatch(logout());
         setIsMenuOpen(false);
+        setIsProfileToggleOpen(false);
       }
     } catch (error) {}
   };
@@ -107,6 +112,7 @@ const Header = () => {
                           onClick={() => {
                             closeMenu();
                             toggleProfileDropdown();
+                            profileMenuClose();
                           }}
                         >
                           Profile
@@ -114,6 +120,7 @@ const Header = () => {
                       </li>
                       <li>
                         <NavLink
+                          onClick={() => profileMenuClose()}
                           to="/user/posts"
                           className="block px-4 py-2 hover:bg-[#444]  text-white"
                         >

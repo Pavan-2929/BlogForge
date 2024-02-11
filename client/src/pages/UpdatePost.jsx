@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -9,15 +9,17 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function CreatePost() {
+const UpdatePost = () => {
   const navigate = useNavigate();
+  const [postData, setPostData] = useState([]);
   const [formData, setFormData] = useState({
-    title: "",
+    title: postData?.title || "",
     category: "uncategorized",
     content: "",
   });
+  const { id } = useParams();
 
   const [image, setImage] = useState(null);
   const [imagePercentage, setImagePercentage] = useState(0);
@@ -49,7 +51,7 @@ export default function CreatePost() {
         return;
       }
       const storage = getStorage(app);
-      setImageLoading(true);
+      setImageLoading(true)
       const fileName = new Date().getTime() + "-" + image.name;
       const storageRef = ref(storage, fileName);
 
@@ -64,14 +66,15 @@ export default function CreatePost() {
         },
         (error) => {
           setImageError(true);
-          setImageLoading(false)
+          setImageLoading(false);
           console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
-          setFormData({ ...formData, image: downloadURL })
-          );
-          setImageLoading(false)
+            setFormData({ ...formData, image: downloadURL })
+
+           )
+           setImageLoading(false);
         }
       );
     } catch (error) {
@@ -81,19 +84,21 @@ export default function CreatePost() {
     }
   };
 
+  console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/post/create",
+        `http://localhost:3000/api/post/update/${id}`,
         formData,
         { withCredentials: true }
       );
 
       if (response.status === 200) {
-        navigate("/");
-        alert("Post created");
+        // navigate("/");
+        alert("Post updated");
       }
       setLoading(false);
       console.log(response);
@@ -103,11 +108,32 @@ export default function CreatePost() {
     }
   };
 
-  console.log(formData);
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/post/getpostbyid/${id}`
+        );
+
+        if (response.status === 200) {
+          setPostData(response.data);
+          setFormData({
+            title: response.data.title || "",
+            category: response.data.category || "uncategorized",
+            content: response.data.content || "",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchPostData();
+  }, [image]);
 
   return (
     <div className="p-3 max-w-3xl mx-auto sm:px-14 sm:py-6 sm:mt-5 bg-[#282828] rounded-sm">
-      <h1 className="text-center text-4xl font-semibold mb-8">Create a Post</h1>
+      <h1 className="text-center text-4xl font-semibold mb-8">Update a Post</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <input
@@ -156,9 +182,7 @@ export default function CreatePost() {
             onClick={handleFileUpload}
             className="bg-blue-400 text-white px-4 py-2 rounded-md"
           >
-            {imageLoading
-              ? "Uploading..."
-              : imagePercentage === 100 ? "Uploaded" : "Upload"}
+            {imageLoading ? "Uploading..." : "Upload"}
           </button>
         </div>
         <ReactQuill
@@ -176,9 +200,11 @@ export default function CreatePost() {
           type="submit"
           className="bg-blue-400 text-white px-4 py-2 rounded-md mt-5 md:mt-0"
         >
-          {loading ? "Loading..." : "Publish"}
+          {loading ? "Updating..." : "Update"}
         </button>
       </form>
     </div>
   );
-}
+};
+
+export default UpdatePost;

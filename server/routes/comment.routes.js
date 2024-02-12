@@ -7,7 +7,7 @@ const router = express.Router()
 router.post('/create', verifyToken, createComment)
 router.get('/show/:id', showComment)
 router.put('/likeComment/:id', verifyToken, likeComment)
-router.put('/editCommnet/:id', verifyToken, editComment)
-router.put("/deleteComment/:id", verifyToken, deleteComment)
+router.put('/editComment/:id', verifyToken, editComment)
+router.delete("/deleteComment/:id", verifyToken, deleteComment)
 
 export default router

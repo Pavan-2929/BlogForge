@@ -4,11 +4,12 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { FaThumbsUp } from "react-icons/fa";
 
-const Comments = ({ comment, onLike }) => {
+const Comments = ({ comment, onLike, onEdit, onDelete }) => {
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editingContent, setEditingContent] = useState(comment.content);
   const currentUser = useSelector((state) => state.currentUser);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null)
 
   useEffect(() => {
     const getCommentUser = async () => {
@@ -32,14 +33,14 @@ const Comments = ({ comment, onLike }) => {
 
   const handleSave = async () => {
     const response = await axios.put(
-      `http://locahost:3000/api/comment/editComment`,
+      `http://localhost:3000/api/comment/editComment/${comment._id}`,
       { content: editingContent },
       { withCredentials: true }
     );
 
     if (response.status === 200) {
       setIsEditing(false);
-      onEdit(comment, editingContent)
+      onEdit(comment, editingContent);
     }
   };
 
@@ -94,12 +95,41 @@ const Comments = ({ comment, onLike }) => {
                   {currentUser && currentUser._id === comment.userId && (
                     <div className="ml-10">
                       <button onClick={handleEdit}>edit</button>
+                      <button onClick={() => setDeleteConfirmation(comment._id)}>
+                        delete
+                      </button>
                     </div>
                   )}
                 </div>
               </>
             )}
           </div>
+          {deleteConfirmation && (
+            <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center">
+              <div className="bg-[#282828] p-6 rounded-lg shadow-lg">
+                <p className="text-lg font-semibold mb-4">
+                  Are you sure you want to delete this post?
+                </p>
+                <div className="flex justify-center">
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 mr-4 rounded"
+                    onClick={() => {
+                      onDelete(comment._id);
+                      setDeleteConfirmation(null);
+                    }}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="bg-gray-400 text-gray-800 px-4 py-2 rounded"
+                    onClick={() => setDeleteConfirmation(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

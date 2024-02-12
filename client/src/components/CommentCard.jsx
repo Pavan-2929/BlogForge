@@ -27,7 +27,7 @@ const CommentCard = ({ postId }) => {
         },
         { withCredentials: true }
       );
-
+getComments()
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -79,10 +79,31 @@ const CommentCard = ({ postId }) => {
 
   const handleEdit = (comment, editingContent) => {
     setAllComments(
-      allComments.map((c) => comment._id === c._id)
-        ? { ...(c ? content : editingContent) }
-        : c
+      allComments.map((c) =>
+        c._id === comment._id ? { ...c, content: editingContent } : c
+      )
     );
+  };
+
+  const handleDelete = async (commentId) => {
+    if (!currentUser) {
+      alert("Login please");
+      return;
+    }
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/comment/deleteComment/${commentId}`,
+        { withCredentials: true }
+      );
+
+      if(response.status === 200){
+        setAllComments(allComments.filter((comment) => comment._id !== commentId))
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -139,7 +160,8 @@ const CommentCard = ({ postId }) => {
                 key={comment._id}
                 comment={comment}
                 onLike={handleLike}
-                omEdit={handleEdit}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
               />
             ))
           )}

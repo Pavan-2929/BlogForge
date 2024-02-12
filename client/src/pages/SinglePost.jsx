@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import CommentCard from "../components/CommentCard";
 
 const SinglePost = () => {
   const [post, setPost] = useState(null);
@@ -23,7 +24,7 @@ const SinglePost = () => {
   }, [slug]);
 
   return (
-    <main className="p-3 px-14 rounded-md flex flex-col max-w-6xl mx-auto min-h-screen bg-[#282828] mt-10 ">
+    <main className="p-3 md:px-14 px-2 sm:-4 rounded-md flex flex-col max-w-6xl mx-auto min-h-screen bg-[#282828] mt-10 ">
       <h1 className="text-3xl mt-2 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
         {post && post.title}
       </h1>
@@ -43,6 +44,15 @@ const SinglePost = () => {
         className="p-3 mx-auto w-full post-content"
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
+      <div>
+        <hr />
+      </div>
+      {post && (
+        <div>
+          <CommentCard postId={post._id} />
+        </div>
+      )}
+      
     </main>
   );
 };

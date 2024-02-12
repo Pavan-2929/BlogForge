@@ -93,7 +93,7 @@ const Header = () => {
                     Create-Blog
                   </NavLink>
                 </li>
-                <li className="md:ml-5 xl:mx-5 hover:text-blue-400 relative flex items-center md:mr-8 ">
+                <li className="md:ml-5 xl:mx-5 hover:text-blue-400 relative flex items-center md:mr-14 ">
                   <button onClick={toggleProfileDropdown}>
                     {currentUser && currentUser.profilePicture && (
                       <img
@@ -104,7 +104,7 @@ const Header = () => {
                     )}
                   </button>
                   {isProfileToggleOpen && (
-                    <ul className="absolute top-full left-0 bg-[#282828] border border-gray-200 mt-1 py-1 rounded-lg shadow-lg">
+                    <ul className="absolute top-full left-0 mr-14 bg-[#282828] border border-gray-200 mt-1 py-1 px-5 sm:px-1  rounded-lg shadow-lg">
                       <li>
                         <NavLink
                           to="/Profile"
@@ -127,6 +127,17 @@ const Header = () => {
                           Blogs
                         </NavLink>
                       </li>
+                      {currentUser.isAdmin && (
+                        <li>
+                          <NavLink
+                            onClick={() => profileMenuClose()}
+                            to="/user/posts"
+                            className="block px-4 py-2 hover:bg-[#444]  text-white"
+                          >
+                            Admin
+                          </NavLink>
+                        </li>
+                      )}
                       <li>
                         <NavLink
                           to="/login"

@@ -80,7 +80,7 @@ const UserPost = () => {
                     </NavLink>
                     <NavLink
                       type="submit"
-                      className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
+                      className="bg-yellow-500 text-white p-2 hover:bg-yellow-600 rounded focus:outline-none mr-10"
                       to={`/post/update/${post._id}`}
                     >
                       Update

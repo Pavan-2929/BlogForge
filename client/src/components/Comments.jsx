@@ -9,7 +9,7 @@ const Comments = ({ comment, onLike, onEdit, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingContent, setEditingContent] = useState(comment.content);
   const currentUser = useSelector((state) => state.currentUser);
-  const [deleteConfirmation, setDeleteConfirmation] = useState(null)
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
   useEffect(() => {
     const getCommentUser = async () => {
@@ -71,8 +71,20 @@ const Comments = ({ comment, onLike, onEdit, onDelete }) => {
                   onChange={(e) => setEditingContent(e.target.value)}
                   className="bg-[#444] text-white"
                 ></textarea>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={() => setIsEditing(false)}>Cancel</button>
+                <div className="flex justify-end">
+                  <button
+                    onClick={handleSave}
+                    className="bg-green-500 text-white p-2 mt-2 hover:bg-green-600 rounded focus:outline-none mr-10"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="bg-red-500 text-white p-2 mt-2 hover:bg-red-600 rounded focus:outline-none mr-10"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </>
             ) : (
               <>
@@ -94,9 +106,17 @@ const Comments = ({ comment, onLike, onEdit, onDelete }) => {
                   </p>
                   {currentUser && currentUser._id === comment.userId && (
                     <div className="ml-10">
-                      <button onClick={handleEdit}>edit</button>
-                      <button onClick={() => setDeleteConfirmation(comment._id)}>
-                        delete
+                      <button
+                        onClick={handleEdit}
+                        className="text-blue-500 mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => setDeleteConfirmation(comment._id)}
+                        className="text-red-500"
+                      >
+                        Delete
                       </button>
                     </div>
                   )}

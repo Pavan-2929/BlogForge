@@ -6,6 +6,7 @@ import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import postRouter from "./routes/post.routes.js";
 import commentRouter from "./routes/comment.routes.js";
+import AdminRouter from './routes/Admin.routes.js'
 import cors from "cors";
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter)
+app.use('/api/admin', AdminRouter)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

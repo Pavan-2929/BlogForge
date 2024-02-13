@@ -27,7 +27,7 @@ const CommentCard = ({ postId }) => {
         },
         { withCredentials: true }
       );
-getComments()
+      getComments();
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -96,8 +96,10 @@ getComments()
         { withCredentials: true }
       );
 
-      if(response.status === 200){
-        setAllComments(allComments.filter((comment) => comment._id !== commentId))
+      if (response.status === 200) {
+        setAllComments(
+          allComments.filter((comment) => comment._id !== commentId)
+        );
       }
 
       console.log(response);
@@ -119,7 +121,7 @@ getComments()
               <img
                 src={currentUser.profilePicture}
                 alt=""
-                className="h-6 w-6 rounded-full"
+                className="h-6 w-6 rounded-full cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
               />
               <NavLink to="/profile">
                 <p className="text-sm font-bold">@{currentUser.username}</p>
@@ -142,8 +144,8 @@ getComments()
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className={`bg-blue-500 text-white px-4 py-2 rounded-md transition duration-300 
-              }`}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md transition duration-300 
+              "
               >
                 Submit
               </button>

@@ -54,7 +54,7 @@ const UserPost = () => {
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-64 object-cover cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
                 />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold mb-2 h-14">

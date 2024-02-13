@@ -29,7 +29,7 @@ export const showComment = async (req, res, next) => {
   }
 };
 
-export const likeComment = async (req, res, next) => {
+export const likeComment = async () => {
   try {
     const comment = await Comment.findById(req.params.id);
 

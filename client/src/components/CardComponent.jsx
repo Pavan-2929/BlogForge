@@ -1,7 +1,7 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-const CardComponent = ({posts}) => {
+const CardComponent = ({ posts }) => {
   return (
     <>
       {posts && posts.length > 0 && (
@@ -41,7 +41,7 @@ const CardComponent = ({posts}) => {
                   <div>
                     <NavLink
                       type="submit"
-                      className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
+                      className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-2"
                       to={`post/${post.slug}`}
                     >
                       Explore
@@ -55,6 +55,6 @@ const CardComponent = ({posts}) => {
       )}
     </>
   );
-}
+};
 
-export default CardComponent
+export default CardComponent;

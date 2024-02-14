@@ -10,14 +10,14 @@ const Home = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const currentUser = useSelector((state) => state.currentUser);
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
 
   const dispatch = useDispatch();
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/user", {
+      const response = await axios.get("http://:3000/api/user", {
         withCredentials: true,
       });
       dispatch(setUser(response.data));
@@ -30,7 +30,7 @@ const Home = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        "http://localhost:3000/api/post/getposts"
+        "https://blogforge-server.onrender.com/api/post/getposts"
       );
       setAllPosts(response.data);
       setIsLoading(false);
@@ -42,7 +42,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-    if(isLoggedIn){
+    if (isLoggedIn) {
       fetchUserData();
     }
   }, [isLoggedIn]);

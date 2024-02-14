@@ -36,7 +36,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/user/update",
+        "https://blogforge-server.onrender.com/api/user/update",
         formData,
         {
           withCredentials: true,
@@ -94,7 +94,7 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/auth/logout",
+        "https://blogforge-server.onrender.com/api/auth/logout",
         { withCredentials: true }
       );
 
@@ -124,7 +124,7 @@ const Profile = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:3000/api/user/delete",
+        "https://blogforge-server.onrender.com/api/user/delete",
         { withCredentials: true }
       );
 

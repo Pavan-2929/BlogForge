@@ -22,7 +22,7 @@ const Header = () => {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/post/getPostBySearchTerm?searchTerm=${searchTerm}`
+        `https://blogforge-server.onrender.com/api/post/getPostBySearchTerm?searchTerm=${searchTerm}`
       );
       setSearchResults(response.data);
       navigate(`/post/${response.data[0].slug}`);
@@ -52,7 +52,7 @@ const Header = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/auth/logout",
+        "https://blogforge-server.onrender.com/api/auth/logout",
         {
           withCredentials: true,
         }

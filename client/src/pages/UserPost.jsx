@@ -14,7 +14,7 @@ const UserPost = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/post/user/${currentUser._id}`,
+        `https://blogforge-server.onrender.com/api/post/user/${currentUser._id}`,
         { withCredentials: true }
       );
       setAllPosts(response.data);
@@ -28,7 +28,7 @@ const UserPost = () => {
   const handleDeleteBlog = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/post/delete/${id}`,
+        `https://blogforge-server.onrender.com/api/post/delete/${id}`,
         { withCredentials: true }
       );
 

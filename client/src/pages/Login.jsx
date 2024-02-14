@@ -22,7 +22,11 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", formData, {withCredentials: true})
+      const response = await axios.post(
+        "https://blogforge-server.onrender.com/api/auth/login",
+        formData,
+        { withCredentials: true }
+      );
 
       if(response.status === 200){
         navigate('/')

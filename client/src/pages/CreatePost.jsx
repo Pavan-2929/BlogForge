@@ -87,7 +87,7 @@ export default function CreatePost() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/post/create",
+        "https://blogforge-server.onrender.com/api/post/create",
         formData,
         { withCredentials: true }
       );

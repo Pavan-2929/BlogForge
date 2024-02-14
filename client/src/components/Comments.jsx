@@ -15,7 +15,7 @@ const Comments = ({ comment, onLike, onEdit, onDelete }) => {
     const getCommentUser = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/user/${comment.userId}`
+          `https://blogforge-server.onrender.com/api/user/${comment.userId}`
         );
         setUser(response.data);
       } catch (error) {
@@ -33,7 +33,7 @@ const Comments = ({ comment, onLike, onEdit, onDelete }) => {
 
   const handleSave = async () => {
     const response = await axios.put(
-      `http://localhost:3000/api/comment/editComment/${comment._id}`,
+      `https://blogforge-server.onrender.com/api/comment/editComment/${comment._id}`,
       { content: editingContent },
       { withCredentials: true }
     );

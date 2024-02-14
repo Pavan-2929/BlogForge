@@ -15,7 +15,7 @@ const SinglePost = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/api/post/getpost/${slug}`
+          `https://blogforge-server.onrender.com/api/post/getpost/${slug}`
         );
         setPost(response.data);
         setIsLoading(false);

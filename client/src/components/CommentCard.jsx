@@ -19,7 +19,7 @@ const CommentCard = ({ postId }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/comment/create",
+        "https://blogforge-server.onrender.com/api/comment/create",
         {
           content: commentData,
           postId,
@@ -36,7 +36,7 @@ const CommentCard = ({ postId }) => {
   const getComments = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/comment/show/${postId}`
+        `https://blogforge-server.onrender.com/api/comment/show/${postId}`
       );
       if (response.status === 200) {
         setAllComments(response.data);
@@ -49,7 +49,7 @@ const CommentCard = ({ postId }) => {
   const handleLike = async (commentId) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/comment/likeComment/${commentId}`,
+        `https://blogforge-server.onrender.com/api/comment/likeComment/${commentId}`,
         null,
         { withCredentials: true }
       );
@@ -87,7 +87,7 @@ const CommentCard = ({ postId }) => {
     }
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/comment/deleteComment/${commentId}`,
+        `https://blogforge-server.onrender.com/api/comment/deleteComment/${commentId}`,
         { withCredentials: true }
       );
 

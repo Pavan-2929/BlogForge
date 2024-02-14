@@ -90,7 +90,7 @@ const UpdatePost = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `http://localhost:3000/api/post/update/${id}`,
+        `https://blogforge-server.onrender.com/api/post/update/${id}`,
         formData,
         { withCredentials: true }
       );
@@ -122,7 +122,7 @@ const UpdatePost = () => {
     const fetchPostData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/post/getpostbyid/${id}`
+          `https://blogforge-server.onrender.com/api/post/getpostbyid/${id}`
         );
 
         if (response.status === 200) {

@@ -13,7 +13,7 @@ const AllPosts = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3000/api/admin/getAllPostsData",
+          "https://blogforge-server.onrender.com/api/admin/getAllPostsData",
           { withCredentials: true }
         );
 

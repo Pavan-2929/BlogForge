@@ -11,6 +11,7 @@ import { app } from "../firebase";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, logout, setUser } from "../redux/auth/userSlice";
+import toast from 'react-hot-toast'
 
 const Profile = () => {
   const navigate = useNavigate();

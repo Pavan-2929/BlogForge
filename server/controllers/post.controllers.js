@@ -135,3 +135,15 @@ export const deletePost = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const getPostBySearchTerm = async (req, res, next) => {
+  try {
+    const searchTerm = req.query.searchTerm; 
+    const posts = await Post.find({ title: { $regex: searchTerm, $options: 'i' } }); 
+    res.json(posts); 
+  } catch (error) {
+    console.log("Error fetching posts:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

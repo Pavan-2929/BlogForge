@@ -1,6 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewares/verifyToken.js";
-import { createPost, deletePost, getAllPosts, getPost, getPostById, updatePost, userPosts } from "../controllers/post.controllers.js";
+import { createPost, deletePost, getAllPosts, getPost, getPostById, getPostBySearchTerm, updatePost, userPosts } from "../controllers/post.controllers.js";
 
 const router = express.Router();
 
@@ -11,5 +11,6 @@ router.get("/getpostbyid/:id", getPostById)
 router.get('/user/:id', verifyToken, userPosts)
 router.post("/update/:id", verifyToken, updatePost)
 router.delete("/delete/:id", verifyToken, deletePost)
+router.get("/getPostBySearchTerm", getPostBySearchTerm);
 
 export default router

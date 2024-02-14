@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/auth/userSlice";
 import { NavLink } from "react-router-dom";
 import CardComponent from "../components/CardComponent";
+import Loader from "../components/Loader";
 
 const Home = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const currentUser = useSelector((state) => state.currentUser);
 
+  const [isLoading, setIsLoading] = useState(false)
   const [allPosts, setAllPosts] = useState([]);
 
   const dispatch = useDispatch();
@@ -26,14 +28,17 @@ const Home = () => {
 
   const fetchPosts = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(
         "http://localhost:3000/api/post/getposts"
       );
 
       console.log(response);
       setAllPosts(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -49,9 +54,13 @@ const Home = () => {
           Welcome to the world of Blogs!
         </h1>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <CardComponent posts={allPosts}/>
-      </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <CardComponent posts={allPosts} />
+        </div>
+      )}
     </div>
   );
 };

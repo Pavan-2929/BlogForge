@@ -14,6 +14,23 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileToggleOpen, setIsProfileToggleOpen] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/post/getPostBySearchTerm?searchTerm=${searchTerm}`
+      );
+      // console.log(response);
+      setSearchResults(response.data);
+      navigate(`/post/${response.data[0].slug}`);
+    } catch (error) {
+      console.log("Error searching posts:", error);
+    }
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -63,17 +80,21 @@ const Header = () => {
           </div>
         </div>
 
-        <form className="flex bg-[#444] rounded px-4 py-2 my-5 md:my-0">
+        <form
+          className="flex bg-[#444] rounded px-4 py-2 my-5 md:my-0"
+          onSubmit={handleSearch}
+        >
           <input
             type="text"
             className="focus:outline-none bg-transparent w-full sm:max-w-[250px] "
             placeholder="Search..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchTerm}
           />
           <button type="submit">
             <FaSearch />
           </button>
         </form>
-
         <div>
           <ul
             className={`text-[1.3rem] md:flex ${
@@ -104,7 +125,8 @@ const Header = () => {
                     )}
                   </button>
                   {isProfileToggleOpen && (
-                    <ul className="absolute top-full left-0 mr-14 bg-[#282828] border border-gray-200 mt-1 py-1 px-5 sm:px-1  rounded-lg shadow-lg">
+                    <ul className="absolute top-full left-0 mr-14 bg-[#282828] border border-gray-200 mt-1 py-1 px-5 sm:px-1  rounded-lg shadow-lg z-10">
+                      {" "}
                       <li>
                         <NavLink
                           to="/Profile"
@@ -131,7 +153,7 @@ const Header = () => {
                         <li>
                           <NavLink
                             onClick={() => profileMenuClose()}
-                            to="/user/posts"
+                            to="/admin/users"
                             className="block px-4 py-2 hover:bg-[#444]  text-white"
                           >
                             Admin

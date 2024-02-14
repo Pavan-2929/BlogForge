@@ -20,12 +20,12 @@ export const register = async (req, res, next) => {
     const newUser = await User.create({ username, email, password });
 
     const token = await newUser.generateToken();
-    const expiryDate = new Date(Date.now() + 60 * 60 * 24 * 365 * 1000);
+    const expiryTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     res.cookie("token", token, {
-      expires: expiryDate,
-      secure: true,
+      expires: expiryTime,
       sameSite: "None",
+      secure: true,
     });
 
     res.status(200).json(newUser);
@@ -49,12 +49,12 @@ export const login = async (req, res, next) => {
     }
 
     const token = await validEmail.generateToken();
-    const expiryDate = new Date(Date.now() + 60 * 60 * 24 * 365 * 1000);
+    const expiryTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     res.cookie("token", token, {
-      expires: expiryDate,
-      secure: true,
+      expires: expiryTime,
       sameSite: "None",
+      secure: true,
     });
 
     res.status(200).json(validEmail);
@@ -80,11 +80,11 @@ export const googleAuth = async (req, res, next) => {
 
     if (isUserExist) {
       const token = await isUserExist.generateToken();
-      const expiryDate = new Date(Date.now() + 60 * 60 * 24 * 365 * 1000);
+      const expiryTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
       res.cookie("token", token, {
-        expires: expiryDate,
-        secure: true,
+        expires: expiryTime,
         sameSite: "None",
+        secure: true,
       });
 
       res.status(200).json(isUserExist);

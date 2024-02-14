@@ -10,6 +10,7 @@ import {
 import { app } from "../firebase";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const UpdatePost = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const UpdatePost = () => {
         return;
       }
       const storage = getStorage(app);
-      setImageLoading(true)
+      setImageLoading(true);
       const fileName = new Date().getTime() + "-" + image.name;
       const storageRef = ref(storage, fileName);
 
@@ -72,9 +73,8 @@ const UpdatePost = () => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
             setFormData({ ...formData, image: downloadURL })
-
-           )
-           setImageLoading(false);
+          );
+          setImageLoading(false);
         }
       );
     } catch (error) {
@@ -84,7 +84,6 @@ const UpdatePost = () => {
     }
   };
 
-  console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,14 +96,25 @@ const UpdatePost = () => {
       );
 
       if (response.status === 200) {
-        // navigate("/");
-        alert("Post updated");
+        toast.success("Post updated Successfully", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
       setLoading(false);
-      console.log(response);
     } catch (error) {
       setLoading(false);
       console.log(error);
+       toast.error(`${error.response.data.message}`, {
+         style: {
+           borderRadius: "10px",
+           background: "#282828",
+           color: "#fff",
+         },
+       });
     }
   };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import CardComponent from "../components/CardComponent";
 import { NavLink } from "react-router-dom";
 import Loader from "../components/Loader";
+import toast from "react-hot-toast";
 
 const UserPost = () => {
   const currentUser = useSelector((state) => state.currentUser);
@@ -34,10 +34,23 @@ const UserPost = () => {
 
       if (response.status === 200) {
         fetchUserPost();
-        alert("Deleted successfully");
+        toast.success("Post deleted Successfully", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
 
@@ -47,9 +60,22 @@ const UserPost = () => {
 
   return (
     <div className="container mx-auto lg:px-14 px-2 mb-8">
-      <h2 className="text-4xl font-bold mb-6 text-center my-5">
-        Your Blogging Journey
-      </h2>
+      {allPosts && allPosts.length > 0 ? (
+        <h2 className="text-4xl font-bold mb-6 text-center my-5">
+          Your Blogging Journey
+        </h2>
+      ) : (
+        <div className="flex justify-center text-center flex-col">
+          <p className="my-5 text-4xl font-bold">Please create a post</p>
+          <NavLink
+            className="bg-blue-400 text-white p-2 hover:bg-blue-500 rounded focus:outline-none mr-10"
+            to="/post-create"
+          >
+            Create Post
+          </NavLink>
+        </div>
+      )}
+
       {isLoading ? (
         <Loader />
       ) : (

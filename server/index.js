@@ -35,6 +35,10 @@ app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter)
 app.use('/api/admin', AdminRouter)
 
+app.get('/', (req, res) => {
+  res.status(200).json("BlogForge")
+})
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal server error";

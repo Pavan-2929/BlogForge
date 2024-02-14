@@ -10,6 +10,7 @@ import {
 import { app } from "../firebase";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -64,14 +65,14 @@ export default function CreatePost() {
         },
         (error) => {
           setImageError(true);
-          setImageLoading(false)
+          setImageLoading(false);
           console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
-          setFormData({ ...formData, image: downloadURL })
+            setFormData({ ...formData, image: downloadURL })
           );
-          setImageLoading(false)
+          setImageLoading(false);
         }
       );
     } catch (error) {
@@ -93,17 +94,27 @@ export default function CreatePost() {
 
       if (response.status === 200) {
         navigate("/");
-        alert("Post created");
+        toast.success("Post created Successfully", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
       setLoading(false);
-      console.log(response);
     } catch (error) {
       setLoading(false);
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
-
-  console.log(formData);
 
   return (
     <div className="p-3 max-w-3xl mx-auto sm:px-14 sm:py-6 sm:mt-5 bg-[#282828] rounded-sm">
@@ -158,7 +169,9 @@ export default function CreatePost() {
           >
             {imageLoading
               ? "Uploading..."
-              : imagePercentage === 100 ? "Uploaded" : "Upload"}
+              : imagePercentage === 100
+              ? "Uploaded"
+              : "Upload"}
           </button>
         </div>
         <ReactQuill

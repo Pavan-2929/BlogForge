@@ -5,11 +5,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/auth/userSlice";
+import toast from "react-hot-toast";
 
 const GoogleAuth = () => {
-
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleGoogleClick = async (e) => {
     e.preventDefault();
@@ -17,7 +17,6 @@ const GoogleAuth = () => {
       const auth = getAuth(app);
       const Provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, Provider);
-      console.log(result);
 
       const response = await axios.post(
         "http://localhost:3000/api/auth/google",
@@ -29,12 +28,26 @@ const GoogleAuth = () => {
         { withCredentials: true }
       );
 
-      if(response.status === 200){
-        navigate('/')
+      if (response.status === 200) {
+        navigate("/");
         dispatch(login());
+        toast.success("Login Successful", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
     } catch (error) {
-        console.log(error);
+      console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
   return (

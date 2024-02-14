@@ -42,13 +42,26 @@ const Profile = () => {
           withCredentials: true,
         }
       );
-      console.log(response);
       if (response.status === 200) {
         dispatch(login());
         dispatch(setUser(formData));
+        toast.success("User updated successfully", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
 
@@ -88,9 +101,23 @@ const Profile = () => {
       if (response.status === 200) {
         navigate("/");
         dispatch(logout());
+        toast.success("Logout Successful", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
 
@@ -104,9 +131,23 @@ const Profile = () => {
       if (response.status === 200) {
         navigate("/");
         dispatch(logout());
+        toast.success("User deleted Successfully", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
 

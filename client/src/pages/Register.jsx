@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/auth/userSlice";
 
 const Register = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
 
   const handleRegisterSubmit = async (e) => {
@@ -20,15 +20,27 @@ const Register = () => {
         { withCredentials: true }
       );
 
-      if(response.status === 200){
-        navigate('/')
-        setFormData({})
-        dispatch(login())
+      if (response.status === 200) {
+        navigate("/");
+        setFormData({});
+        dispatch(login());
+        toast.success("Registration Successful", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
-
-      console.log(response);
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   };
 

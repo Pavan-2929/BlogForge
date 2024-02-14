@@ -28,7 +28,6 @@ const CommentCard = ({ postId }) => {
         { withCredentials: true }
       );
       getComments();
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -39,8 +38,6 @@ const CommentCard = ({ postId }) => {
       const response = await axios.get(
         `http://localhost:3000/api/comment/show/${postId}`
       );
-
-      console.log(response);
       if (response.status === 200) {
         setAllComments(response.data);
       }
@@ -56,8 +53,6 @@ const CommentCard = ({ postId }) => {
         null,
         { withCredentials: true }
       );
-
-      console.log(response);
 
       const data = response.data;
 
@@ -101,8 +96,6 @@ const CommentCard = ({ postId }) => {
           allComments.filter((comment) => comment._id !== commentId)
         );
       }
-
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

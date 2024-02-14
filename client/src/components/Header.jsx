@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/auth/userSlice";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,6 @@ const Header = () => {
       const response = await axios.get(
         `http://localhost:3000/api/post/getPostBySearchTerm?searchTerm=${searchTerm}`
       );
-      // console.log(response);
       setSearchResults(response.data);
       navigate(`/post/${response.data[0].slug}`);
     } catch (error) {
@@ -63,8 +63,24 @@ const Header = () => {
         dispatch(logout());
         setIsMenuOpen(false);
         setIsProfileToggleOpen(false);
+        toast.success("Logout Successfull", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
+      console.log(error);
+    }
   };
   return (
     <nav
@@ -146,7 +162,7 @@ const Header = () => {
                           to="/user/posts"
                           className="block px-4 py-2 hover:bg-[#444]  text-white"
                         >
-                          Blogs
+                          Posts
                         </NavLink>
                       </li>
                       {currentUser.isAdmin && (

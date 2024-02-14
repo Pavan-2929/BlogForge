@@ -32,8 +32,6 @@ const Home = () => {
       const response = await axios.get(
         "http://localhost:3000/api/post/getposts"
       );
-
-      console.log(response);
       setAllPosts(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -44,7 +42,9 @@ const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-    fetchUserData();
+    if(isLoggedIn){
+      fetchUserData();
+    }
   }, [isLoggedIn]);
 
   return (

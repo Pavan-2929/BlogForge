@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/auth/userSlice";
 import GoogleAuth from "../components/GoogleAuth";
+import toast from 'react-hot-toast'
 
 const Login = () => {
 
@@ -27,9 +28,23 @@ const Login = () => {
         navigate('/')
         setFormData({})
         dispatch(login())
+        toast.success("Login Successful", {
+          style: {
+            borderRadius: "10px",
+            background: "#282828",
+            color: "#fff",
+          },
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#282828",
+          color: "#fff",
+        },
+      });
     }
   }
   return (

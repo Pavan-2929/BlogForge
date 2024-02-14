@@ -17,9 +17,12 @@ const Home = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://:3000/api/user", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://blogforge-server.onrender.com/api/user",
+        {
+          withCredentials: true,
+        }
+      );
       dispatch(setUser(response.data));
     } catch (error) {
       console.log(error);

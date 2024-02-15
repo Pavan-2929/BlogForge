@@ -21,7 +21,7 @@ const CardComponent = ({ posts }) => {
                   {post.title}
                 </h2>
                 <p
-                  className="text-sm text-gray-600 mb-4 overflow-hidden"
+                  className="text-sm text-white mb-4 overflow-hidden"
                   style={{
                     WebkitLineClamp: 5,
                     display: "-webkit-box",

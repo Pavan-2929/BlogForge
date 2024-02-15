@@ -5,6 +5,7 @@ import authImage from "../assets/authImage.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/auth/userSlice";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();

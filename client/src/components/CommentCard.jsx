@@ -27,6 +27,7 @@ const CommentCard = ({ postId }) => {
         },
         { withCredentials: true }
       );
+      setCommentData("");
       getComments();
     } catch (error) {
       console.log(error);
